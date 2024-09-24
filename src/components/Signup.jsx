@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import image from '../assets/image copy 2.png';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../assets/firebase';
 import { useNavigate } from 'react-router-dom';
-
 
 const SignUpPage = () => {
   const [name, setName] = useState("");
@@ -13,22 +11,15 @@ const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  // const auth = getAuth(app);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (
-      name === "" ||
-      email === "" ||
-      password === "" ||
-      confirmPassword === ""
-    ) {
+    if (name === "" || email === "" || password === "" || confirmPassword === "") {
       setError("Please fill in all fields");
       return;
     }
@@ -38,30 +29,36 @@ const SignUpPage = () => {
       return;
     }
 
-
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed up
-        const user = userCredential.user;
-        setError("");
-        navigate("/login");
+        setError("");  // Clear error
+        navigate("/login");  // Redirect to login page
       })
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
-        setError(errorCode + "-" + errorMessage);
+        switch (errorCode) {
+          case "auth/email-already-in-use":
+            setError("Email already in use.");
+            break;
+          case "auth/invalid-email":
+            setError("Invalid email format.");
+            break;
+          case "auth/weak-password":
+            setError("Password should be at least 6 characters.");
+            break;
+          default:
+            setError(error.message);
+        }
       });
-
-    setError(""); 
-    console.log("Signing up with", name, email, password);
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-pink-100 to-white" style={{ backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-pink-100 to-white">
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
         <h2 className="text-2xl font-semibold text-center mb-6">Create your account</h2>
+        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-6">
-         
+          {/* Name Input */}
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">
               Name
@@ -77,7 +74,7 @@ const SignUpPage = () => {
             />
           </div>
 
-         
+          {/* Email Input */}
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Email
@@ -93,7 +90,7 @@ const SignUpPage = () => {
             />
           </div>
 
-       
+         
           <div className="relative">
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
               Password
@@ -116,7 +113,7 @@ const SignUpPage = () => {
             </button>
           </div>
 
-          
+          {/* Confirm Password Input */}
           <div className="relative">
             <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700">
               Confirm Password
@@ -131,6 +128,7 @@ const SignUpPage = () => {
               placeholder="Confirm your password"
             />
           </div>
+          
 
           
           <button
