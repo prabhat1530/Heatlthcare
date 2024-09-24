@@ -27,7 +27,7 @@ const LoginPage = () => {
       .catch((error) => {
         if (error.code === "auth/user-not-found") {
           console.error("User not found. Redirecting to signup.");
-          navigate("/signup");  // Redirect to signup page if user doesn't exist
+          navigate("/sign-up");  // Redirect to signup page if user doesn't exist
         } else if (error.code === "auth/wrong-password") {
           alert("Incorrect password. Please try again.");
         } else {
@@ -87,7 +87,7 @@ const LoginPage = () => {
 
           <p className="text-center text-sm text-gray-600 mt-4">
             New to Neuro Health?{' '}
-            <a href="/signup" className="text-green-600 font-semibold hover:underline">
+            <a href="/sign-up" className="text-green-600 font-semibold hover:underline">
               Sign Up
             </a>
           </p>
