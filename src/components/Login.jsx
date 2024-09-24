@@ -3,6 +3,7 @@ import image from '../assets/image copy 2.png';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../assets/firebase';
 import { useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -87,9 +88,9 @@ const LoginPage = () => {
 
           <p className="text-center text-sm text-gray-600 mt-4">
             New to Neuro Health?{' '}
-            <a href="/sign-up" className="text-green-600 font-semibold hover:underline">
+            <Link href="/sign-up" className="text-green-600 font-semibold hover:underline">
               Sign Up
-            </a>
+            </Link>
           </p>
         </form>
       </div>

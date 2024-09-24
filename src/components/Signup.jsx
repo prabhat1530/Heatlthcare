@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../assets/firebase';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import image from '../assets/image copy 2.png';
 
 const SignUpPage = () => {
@@ -142,9 +142,9 @@ const SignUpPage = () => {
           {/* Already Have an Account */}
           <p className="text-center text-sm text-gray-600 mt-4">
             Already have an account?{' '}
-            <a href="/login" className="text-green-600 font-semibold hover:underline">
+            <Link href="/login" className="text-green-600 font-semibold hover:underline">
               Log in
-            </a>
+            </Link>
           </p>
         </form>
       </div>
