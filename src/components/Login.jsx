@@ -8,8 +8,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useNavigate();  // For programmatic navigation
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -21,21 +20,25 @@ const LoginPage = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
         if (user) {
-          setIsLoggedIn(true);
-          navigate("/");  // Redirect to home after login
+          navigate("/");  // Redirect to home page on successful login
         }
       })
       .catch((error) => {
-        console.error(error.message);
+        if (error.code === "auth/user-not-found") {
+          console.error("User not found. Redirecting to signup.");
+          navigate("/signup");  // Redirect to signup page if user doesn't exist
+        } else if (error.code === "auth/wrong-password") {
+          alert("Incorrect password. Please try again.");
+        } else {
+          alert(error.message);
+        }
       });
   };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-pink-100 to-white" style={{ backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
-
         <h2 className="text-2xl font-semibold text-center mb-6">Welcome back</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>

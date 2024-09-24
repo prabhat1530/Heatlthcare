@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../assets/firebase';
 import { useNavigate } from 'react-router-dom';
+import image from '../assets/image copy 2.png';
 
 const SignUpPage = () => {
   const [name, setName] = useState("");
@@ -53,7 +54,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-pink-100 to-white">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-pink-100 to-white" style={{ backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
         <h2 className="text-2xl font-semibold text-center mb-6">Create your account</h2>
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
